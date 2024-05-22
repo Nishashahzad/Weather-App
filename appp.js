@@ -1,9 +1,9 @@
 const express = require('express');
 const https = require('https');
-const bodyParser = require('body-parser'); // Correctly require body-parser
+const bodyParser = require('body-parser'); 
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true })); // Correctly use body-parser
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html");
@@ -17,12 +17,10 @@ app.post('/', (req, res) => {
     https.get(url, (response) => {
         let data = '';
 
-        // A chunk of data has been received.
         response.on('data', (chunk) => {
             data += chunk;
         });
 
-        // The whole response has been received.
         response.on('end', () => {
             const weatherData = JSON.parse(data);
             const temp = weatherData.main.temp;
@@ -30,7 +28,7 @@ app.post('/', (req, res) => {
 
             res.write("<h1>The temperature in " + query + " is " + temp + " degree Celsius </h1>");
             res.write("<p>The weather description is " + description + "</p>");
-            res.end(); // Ending the response after writing all data
+            res.end();
         });
     }).on('error', (error) => {
         console.error('Error fetching the weather data:', error);
